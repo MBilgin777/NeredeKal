@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 
 public class Kategoriler_Page {
 
+
     public Kategoriler_Page() {
 
         PageFactory.initElements(Driver.getDriver(), this);

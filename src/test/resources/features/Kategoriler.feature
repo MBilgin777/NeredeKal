@@ -9,3 +9,4 @@ Feature: User work on the Kategoriler Module
       When user clicks Kategoriler Module Button.
       And user clicks Elektronik SubModule Button.
       And user clicks Cep Telefonu Submodule Button.
+      Then user verify the title is correct.

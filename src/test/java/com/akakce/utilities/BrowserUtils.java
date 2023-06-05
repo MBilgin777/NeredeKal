@@ -1,6 +1,8 @@
 package com.akakce.utilities;
 
 import org.junit.Assert;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 
 import java.util.Set;
 
@@ -53,5 +55,20 @@ for given duration
 
         Assert.assertEquals(Driver.getDriver().getTitle(), expectedTitle);
 
+    }
+
+    public static void clickWithJS(WebElement element) {
+        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", element);
+    }
+
+
+    /**
+     * Scrolls down to an element using JavaScript
+     *
+     * @param element
+     */
+    public static void scrollToElement(WebElement element) {
+        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
     }
 }

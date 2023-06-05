@@ -1,5 +1,6 @@
 package com.akakce.step_definitions;
 
+import com.akakce.utilities.BrowserUtils;
 import com.akakce.utilities.Driver;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
@@ -34,5 +35,16 @@ public class Hooks {
             scenario.attach(screenshot, "image/png", scenario.getName());
 
         }
+        Driver.closeDriver();
     }
-}
+    @BeforeStep
+    public void setUpStep() throws InterruptedException {
+        BrowserUtils.sleep(2);
+        //System.out.println("----->applying setup using @BeforeStep");
+    }
+
+    @AfterStep
+    public void afterStep() throws InterruptedException {
+        // System.out.println("----->applying tearDown using @AfterStep");
+    }
+    }

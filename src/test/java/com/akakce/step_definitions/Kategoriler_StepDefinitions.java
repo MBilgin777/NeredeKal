@@ -27,7 +27,7 @@ public class Kategoriler_StepDefinitions {
         Thread.sleep(3000);
         kategoriler_page.elektronik_SubModuleButton.click();
     }
-    @When("user clicks Cep Telefonu Submodule Button.")
+     @When("user clicks Cep Telefonu Submodule Button.")
     public void user_clicks_cep_telefonu_submodule_button() throws InterruptedException {
        Thread.sleep(3000);
         kategoriler_page.telefon_SubModuleButton.click();

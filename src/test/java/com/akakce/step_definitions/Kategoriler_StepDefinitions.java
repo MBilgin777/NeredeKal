@@ -35,7 +35,7 @@ public class Kategoriler_StepDefinitions {
         kategoriler_page.cepTelefonu_SubModuleButton.click();
 
     }
-    @Then("user verify the title is correct.")
+    @Then("user verify the Url is correct.")
     public void userVerifyTheTitleIs() throws InterruptedException {
         String expectedUrl = "https://www.akakce.com/cep-telefonu.html";
         System.out.println("expectedTitle = " + expectedUrl);

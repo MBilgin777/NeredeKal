@@ -1,4 +1,4 @@
-package com.akakce.utilities;
+package com.neredeKal.utilities;
 
 import java.io.FileInputStream;
 import java.io.IOException;

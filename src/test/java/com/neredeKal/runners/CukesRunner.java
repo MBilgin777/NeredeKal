@@ -1,4 +1,4 @@
-package com.akakce.runners;
+package com.neredeKal.runners;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
                         //"me.jvt.cucumber.report.PrettyReports:target/cucumber"
                 },
         features = "src/test/resources/features",
-        glue = "com/akakce/step_definitions",
+        glue = "com/neredeKal/step_definitions",
         dryRun = false,
         tags = ""
 )

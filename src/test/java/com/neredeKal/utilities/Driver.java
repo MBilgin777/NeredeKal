@@ -1,4 +1,4 @@
-package com.akakce.utilities;
+package com.neredeKal.utilities;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -43,7 +43,7 @@ public class Driver {
             We read our browserType from configuration.properties.
             This way, we can control which browser is opened from outside our code, from configuration.properties.
              */
-            String browserType = com.akakce.utilities.ConfigurationReader.getProperty("browser");
+            String browserType = com.neredeKal.utilities.ConfigurationReader.getProperty("browser");
 
 
             /*

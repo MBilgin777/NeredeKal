@@ -1,7 +1,7 @@
-package com.akakce.step_definitions;
+package com.neredeKal.step_definitions;
 
-import com.akakce.utilities.BrowserUtils;
-import com.akakce.utilities.Driver;
+import com.neredeKal.utilities.BrowserUtils;
+import com.neredeKal.utilities.Driver;
 import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

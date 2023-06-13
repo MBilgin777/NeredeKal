@@ -1,4 +1,4 @@
-package com.akakce.utilities;
+package com.neredeKal.utilities;
 
 import org.junit.Assert;
 import org.openqa.selenium.JavascriptExecutor;

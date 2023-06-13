@@ -1,6 +1,6 @@
-package com.akakce.pages;
+package com.neredeKal.pages;
 
-import com.akakce.utilities.Driver;
+import com.neredeKal.utilities.Driver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;

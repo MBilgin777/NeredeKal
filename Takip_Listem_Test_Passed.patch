@@ -1,0 +1,439 @@
+Subject: [PATCH] Takip Listem Test Passed
+---
+Index: configuration.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/configuration.properties b/configuration.properties
+--- a/configuration.properties	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ b/configuration.properties	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -1,1 +1,4 @@
+-browser=chrome
+\ No newline at end of file
++browser = chrome
++env = https://www.akakce.com
++email = mb116mb@gmail.com
++password = 879093Mb
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ b/pom.xml	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -76,6 +76,12 @@
+             <scope>test</scope>
+         </dependency>
+ 
++        <dependency>
++            <groupId>org.testng</groupId>
++            <artifactId>testng</artifactId>
++            <version>7.7.0</version>
++        </dependency>
++
+         <dependency>
+             <groupId>me.jvt.cucumber</groupId>
+             <artifactId>reporting-plugin</artifactId>
+Index: src/test/java/com/akakce/pages/LoginPage.java
+===================================================================
+diff --git a/src/test/java/com/akakce/pages/LoginPage.java b/src/test/java/com/akakce/pages/LoginPage.java
+--- a/src/test/java/com/akakce/pages/LoginPage.java	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ b/src/test/java/com/akakce/pages/LoginPage.java	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -1,5 +1,29 @@
+ package com.akakce.pages;
+ 
++import com.akakce.utilities.Driver;
++import org.openqa.selenium.WebElement;
++import org.openqa.selenium.support.FindBy;
++import org.openqa.selenium.support.PageFactory;
++
+ public class LoginPage {
++    public LoginPage(){
+ 
++        PageFactory.initElements(Driver.getDriver(),this);
++    }
++
++
++
++    @FindBy(xpath = "//div[@id='H_rl_v8']//a[@rel='nofollow'][contains(text(),'Giriş Yap')]")
++    public WebElement girisYapButton;
++
++    @FindBy(xpath = "//input[@id='life']")
++    public WebElement email;
++
++    @FindBy(xpath = "//input[@id='lifp']")
++    public WebElement password;
++
++    @FindBy(xpath = "//input[@id='lfb']")
++    public WebElement loginButton;
++
+ }
++
+Index: src/test/java/com/akakce/pages/SearchPage.java
+===================================================================
+diff --git a/src/test/java/com/akakce/pages/SearchPage.java b/src/test/java/com/akakce/pages/SearchPage.java
+new file mode 100644
+--- /dev/null	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
++++ b/src/test/java/com/akakce/pages/SearchPage.java	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -0,0 +1,54 @@
++package com.akakce.pages;
++
++import com.akakce.utilities.Driver;
++import org.openqa.selenium.WebElement;
++import org.openqa.selenium.support.FindBy;
++import org.openqa.selenium.support.PageFactory;
++
++public class SearchPage {
++
++
++    public SearchPage() {
++
++        PageFactory.initElements(Driver.getDriver(), this);
++    }
++
++    @FindBy(xpath = "//input[@id='q']")
++    public WebElement searchBox;
++
++    @FindBy(xpath = "//i[normalize-space()='Ara']")
++    public WebElement searchBoxButton;
++
++    @FindBy(xpath = "//b[normalize-space()='Ürüne Git (+116)']")
++    public WebElement uruneGit;
++
++    @FindBy(xpath = "//span[contains(text(),\"Takip Et\")]")
++    ////span[contains(text(),"Takip Et")]
++    public WebElement takipEtButton;
++
++    @FindBy(xpath = "//a[@id='H_f_v8']")
++    public WebElement takipEtPageButton;
++
++    @FindBy(xpath = "//span[@class='ac_text']")
++    public WebElement takipEtPageTumUrunler;
++
++    @FindBy(xpath = "//h3[normalize-space()='iPhone 14 128 GB']")
++    public WebElement expextedIphoneName;
++
++    @FindBy(xpath = "//h3[@class='pn_v8']")
++    public WebElement actualIphoneName;
++
++    @FindBy(xpath = "//b[contains(text(),'Fiyat Değişimi')]")
++    public WebElement scroll;
++
++
++
++
++
++
++
++
++
++
++}
++
+Index: src/test/java/com/akakce/step_definitions/AddProducttoList.java
+===================================================================
+diff --git a/src/test/java/com/akakce/step_definitions/AddProducttoList.java b/src/test/java/com/akakce/step_definitions/AddProducttoList.java
+new file mode 100644
+--- /dev/null	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
++++ b/src/test/java/com/akakce/step_definitions/AddProducttoList.java	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -0,0 +1,90 @@
++package com.akakce.step_definitions;
++
++import com.akakce.pages.LoginPage;
++import com.akakce.pages.SearchPage;
++import com.akakce.utilities.BrowserUtils;
++import com.akakce.utilities.ConfigurationReader;
++import com.akakce.utilities.Driver;
++import io.cucumber.java.en.And;
++import io.cucumber.java.en.Given;
++import io.cucumber.java.en.Then;
++import io.cucumber.java.en.When;
++import org.junit.Assert;
++import org.openqa.selenium.JavascriptExecutor;
++import org.openqa.selenium.WebDriver;
++import org.openqa.selenium.chrome.ChromeDriver;
++import org.openqa.selenium.support.ui.WebDriverWait;
++
++public class AddProducttoList {
++    SearchPage searchPage =new SearchPage();
++    LoginPage loginPage =new LoginPage();
++    String expectedName;
++
++
++    WebDriverWait wait=new WebDriverWait(Driver.getDriver(),15);
++
++    @Given("user is on the home page.")
++    public void user_is_on_the_home_page() {
++        Driver.getDriver().get(ConfigurationReader.getProperty("env"));
++
++        loginPage.girisYapButton.click();
++
++        loginPage.email.sendKeys(ConfigurationReader.getProperty("email"));
++
++        loginPage.password.sendKeys(ConfigurationReader.getProperty("password"));
++
++        loginPage.loginButton.click();
++    }
++    @When("user searches iphone on search textbox.")
++    public void userSearchesIphoneOnSearchTextbox() {
++        searchPage.searchBox.sendKeys("iphone 14");
++    }
++
++
++    @And("user clicks searchButton.")
++    public void userClicksSearchButton() {
++
++        searchPage.searchBoxButton.click();
++    }
++
++    @And("user clicks first iphone14.")
++    public void userClicksFirstIphone() throws InterruptedException {
++        expectedName = searchPage.expextedIphoneName.getText();
++
++        System.out.println("expectedName = " + expectedName);
++        Thread.sleep(2000);
++        searchPage.uruneGit.click();
++    }
++
++    @And("user scrolls down the page.")
++    public void userScrollsDownThePage() {
++        BrowserUtils.scrollToElement(searchPage.scroll);
++    }
++
++    @And("user clicks Takip Et Button.")
++    public void userClicksTakipEtButton() throws InterruptedException {
++        System.out.println(searchPage.takipEtButton.getText().toString());
++        Thread.sleep(1000);
++        searchPage.takipEtButton.click();
++    }
++
++    @And("user goes to Takip Listem Page.")
++    public void userGoesToTakipListemPage() throws InterruptedException {
++        Thread.sleep(3000);
++    searchPage.takipEtPageButton.click();
++    }
++
++    @Then("user verify that the product is added to Takip Listem page.")
++    public void userVerifyThatTheProductIsAddedToTakipListemPage() throws InterruptedException {
++        Thread.sleep(4000);
++        String actualName = searchPage.actualIphoneName.getText();
++        System.out.println("actualName = " + actualName);
++        String numberOfTumUrunler= searchPage.takipEtPageTumUrunler.getText();
++        Assert.assertEquals(actualName,expectedName);
++        Assert.assertTrue(numberOfTumUrunler.endsWith("(1)"));
++
++    }
++
++
++
++}
+Index: src/test/java/com/akakce/step_definitions/Hooks.java
+===================================================================
+diff --git a/src/test/java/com/akakce/step_definitions/Hooks.java b/src/test/java/com/akakce/step_definitions/Hooks.java
+--- a/src/test/java/com/akakce/step_definitions/Hooks.java	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ b/src/test/java/com/akakce/step_definitions/Hooks.java	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -1,5 +1,6 @@
+ package com.akakce.step_definitions;
+ 
++import com.akakce.utilities.BrowserUtils;
+ import com.akakce.utilities.Driver;
+ import io.cucumber.java.*;
+ import org.openqa.selenium.OutputType;
+@@ -34,5 +35,16 @@
+             scenario.attach(screenshot, "image/png", scenario.getName());
+ 
+         }
++        Driver.closeDriver();
++    }
++    @BeforeStep
++    public void setUpStep() throws InterruptedException {
++        BrowserUtils.sleep(2);
++        //System.out.println("----->applying setup using @BeforeStep");
++    }
++
++    @AfterStep
++    public void afterStep() throws InterruptedException {
++        // System.out.println("----->applying tearDown using @AfterStep");
++    }
+     }
+-}
+\ No newline at end of file
+Index: src/test/java/com/akakce/utilities/BrowserUtils.java
+===================================================================
+diff --git a/src/test/java/com/akakce/utilities/BrowserUtils.java b/src/test/java/com/akakce/utilities/BrowserUtils.java
+--- a/src/test/java/com/akakce/utilities/BrowserUtils.java	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ b/src/test/java/com/akakce/utilities/BrowserUtils.java	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -1,6 +1,8 @@
+ package com.akakce.utilities;
+ 
+ import org.junit.Assert;
++import org.openqa.selenium.JavascriptExecutor;
++import org.openqa.selenium.WebElement;
+ 
+ import java.util.Set;
+ 
+@@ -53,5 +55,20 @@
+ 
+         Assert.assertEquals(Driver.getDriver().getTitle(), expectedTitle);
+ 
++    }
++
++    public static void clickWithJS(WebElement element) {
++        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
++        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].click();", element);
++    }
++
++
++    /**
++     * Scrolls down to an element using JavaScript
++     *
++     * @param element
++     */
++    public static void scrollToElement(WebElement element) {
++        ((JavascriptExecutor) Driver.getDriver()).executeScript("arguments[0].scrollIntoView(true);", element);
+     }
+ }
+Index: src/test/resources/features/AddProducttoFolList.feature
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/resources/features/AddProducttoFolList.feature b/src/test/resources/features/AddProducttoFolList.feature
+new file mode 100644
+--- /dev/null	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
++++ b/src/test/resources/features/AddProducttoFolList.feature	(revision b6c9f4a0bf620f15d5c14840bcf606c93a7999b9)
+@@ -0,0 +1,15 @@
++Feature: User work on the Kategoriler Module
++  User Story:
++    1.Verify that user can choose Cep Telefonu.
++
++  Background: User is on Akakce.com home page.
++    Given user is on the home page.
++
++    Scenario: Verify that user can add product to follow list.
++      When user searches iphone on search textbox.
++      And user clicks searchButton.
++      And user clicks first iphone14.
++      And user scrolls down the page.
++      And user clicks Takip Et Button.
++      And user goes to Takip Listem Page.
++      Then user verify that the product is added to Takip Listem page.
+\ No newline at end of file
+Index: src/test/java/com/akakce/pages/Kategoriler_Page.java
+===================================================================
+diff --git a/src/test/java/com/akakce/pages/Kategoriler_Page.java b/src/test/java/com/akakce/pages/Kategoriler_Page.java
+deleted file mode 100644
+--- a/src/test/java/com/akakce/pages/Kategoriler_Page.java	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ /dev/null	(revision 8c8b0c199134d1620417589a83275c221243d72d)
+@@ -1,32 +0,0 @@
+-package com.akakce.pages;
+-
+-import com.akakce.utilities.Driver;
+-import org.openqa.selenium.WebElement;
+-import org.openqa.selenium.support.FindBy;
+-import org.openqa.selenium.support.PageFactory;
+-
+-public class Kategoriler_Page {
+-
+-
+-    public Kategoriler_Page() {
+-
+-        PageFactory.initElements(Driver.getDriver(), this);
+-    }
+-
+-    @FindBy(xpath = "//a[@id='H_c_v8']")
+-    public WebElement kategoriler_ModuleButton;
+-
+-    @FindBy(xpath = "/html/body/div[1]/header/div[1]/div/ul/li[1]")
+-    public WebElement elektronik_SubModuleButton;
+-
+-    @FindBy(xpath = "//img[@alt='Telefon']")
+-    public WebElement telefon_SubModuleButton;
+-
+-    @FindBy(xpath = "//img[@alt='Cep Telefonu']")
+-    public WebElement cepTelefonu_SubModuleButton;
+-
+-
+-
+-
+-}
+-
+Index: src/test/java/com/akakce/step_definitions/Kategoriler_StepDefinitions.java
+===================================================================
+diff --git a/src/test/java/com/akakce/step_definitions/Kategoriler_StepDefinitions.java b/src/test/java/com/akakce/step_definitions/Kategoriler_StepDefinitions.java
+deleted file mode 100644
+--- a/src/test/java/com/akakce/step_definitions/Kategoriler_StepDefinitions.java	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ /dev/null	(revision 8c8b0c199134d1620417589a83275c221243d72d)
+@@ -1,50 +0,0 @@
+-package com.akakce.step_definitions;
+-
+-import com.akakce.pages.Kategoriler_Page;
+-import com.akakce.utilities.Driver;
+-import io.cucumber.java.en.Given;
+-import io.cucumber.java.en.Then;
+-import io.cucumber.java.en.When;
+-import org.junit.Assert;
+-import org.openqa.selenium.support.ui.ExpectedConditions;
+-import org.openqa.selenium.support.ui.WebDriverWait;
+-
+-public class Kategoriler_StepDefinitions {
+-    Kategoriler_Page kategoriler_page=new Kategoriler_Page();
+-
+-    WebDriverWait wait=new WebDriverWait(Driver.getDriver(),15);
+-    @Given("user is on the home page.")
+-    public void user_is_on_the_home_page() {
+-        Driver.getDriver().get("https://www.akakce.com/");
+-    }
+-    @When("user clicks Kategoriler Module Button.")
+-    public void user_clicks_kategoriler_module_button() throws InterruptedException {
+-        Thread.sleep(3000);
+-        kategoriler_page.kategoriler_ModuleButton.click();
+-    }
+-    @When("user clicks Elektronik SubModule Button.")
+-    public void user_clicks_elektronik_sub_module_button() throws InterruptedException {
+-        Thread.sleep(3000);
+-        kategoriler_page.elektronik_SubModuleButton.click();
+-    }
+-     @When("user clicks Cep Telefonu Submodule Button.")
+-    public void user_clicks_cep_telefonu_submodule_button() throws InterruptedException {
+-       Thread.sleep(3000);
+-        kategoriler_page.telefon_SubModuleButton.click();
+-        Thread.sleep(3000);
+-        kategoriler_page.cepTelefonu_SubModuleButton.click();
+-
+-    }
+-    @Then("user verify the Url is correct.")
+-    public void userVerifyTheTitleIs() throws InterruptedException {
+-        String expectedUrl = "https://www.akakce.com/cep-telefonu.html";
+-        System.out.println("expectedTitle = " + expectedUrl);
+-        Thread.sleep(3000);
+-        String actualUrl = Driver.getDriver().getCurrentUrl();
+-        System.out.println("actualTitle = " + actualUrl);
+-        Thread.sleep(3000);
+-        Assert.assertTrue(actualUrl.contains(expectedUrl));
+-    }
+-
+-
+-}
+Index: src/test/resources/features/Search.feature
+===================================================================
+diff --git a/src/test/resources/features/Search.feature b/src/test/resources/features/Search.feature
+deleted file mode 100644
+--- a/src/test/resources/features/Search.feature	(revision 8c8b0c199134d1620417589a83275c221243d72d)
++++ /dev/null	(revision 8c8b0c199134d1620417589a83275c221243d72d)
+@@ -1,12 +0,0 @@
+-Feature: User work on the Kategoriler Module
+-  User Story:
+-    1.Verify that user can choose Cep Telefonu.
+-
+-  Background: User is on Akakce.com home page.
+-    Given user is on the home page.
+-
+-    Scenario: Verify that user can choose Mobile Phone.
+-      When user clicks Kategoriler Module Button.
+-      And user clicks Elektronik SubModule Button.
+-      And user clicks Cep Telefonu Submodule Button.
+-      Then user verify the Url is correct.
+\ No newline at end of file
